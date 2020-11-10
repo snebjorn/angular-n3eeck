@@ -1,0 +1,31 @@
+<nz-table #basicTable [nzData]="listOfPeople">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Address</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of basicTable.data"> <!-- no hover over `let data` -->
+      <td>{{ data.name }}</td> <!-- data is any, should be Person -->
+      <td>{{ data.age }}</td>
+      <td>{{ data.address }}</td>
+      <td>
+        <a>Action 一 {{ data.name }}</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a>Delete</a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<test #peopleTest [myData]="listOfPeople" (out)="doStuff($event)"></test> <!-- $event: T[] is not a valid input to doStuff(string) -->
+
+<ng-container *ngIf="peopleTest.data as data2"> <!-- no hover over `as data2` -->
+  {{ data2 }} <!-- data2 is any, should be Person[] -->
+</ng-container> 
+<ng-container *ngIf="peopleTest.data == listOfStrings"></ng-container> <!-- these should not be comparable -->
+<ng-container *ngIf="peopleTest.data[0] == singleString"></ng-container> <!-- if `peopleTest.data == listOfStrings` is comparable, why isn't this? -->
+<ng-container *ngIf="peopleTest.data[0] == singlePerson"></ng-container> <!-- these should be comparable -->
